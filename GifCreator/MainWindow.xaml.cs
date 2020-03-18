@@ -113,6 +113,7 @@ namespace GifCreator
             };
             p.Start();
             p.BeginOutputReadLine();
+            p.WaitForExit();
         }
         private void OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
@@ -208,7 +209,6 @@ namespace GifCreator
                 () => {
                 string dir = m_VideoEdit.SplitGif(width, height);
                 m_VideoEdit.SaveGif(dir);
-                Thread.Sleep(2000);
                 string dst = dir + pyCombName;
                 if (!File.Exists(dst)) return false;
                 Process.Start(dst);
@@ -254,7 +254,6 @@ namespace GifCreator
 
                 () => {
                     string dst = m_PicEdit.GenGif();
-                    Thread.Sleep(2000);
                     if (!File.Exists(dst)) return false;
                     Process.Start(dst);
                     return true;
@@ -277,12 +276,52 @@ namespace GifCreator
 
                 ()=> {
                     _GifResize.Resize(gifPathName,width, height);
-                    Thread.Sleep(2000);
                     string dst = gifPathName + "--resize.gif";
                     if (!File.Exists(dst)) return false;
                     Process.Start(dst);
                     return true;
                 });
+        }
+
+        private void SaveToIcon_Click(object sender, RoutedEventArgs e)
+        {
+            if (isRunning()) return;
+
+            string picPathName = "";
+            string param = "";
+            ProcOpt(
+               () => {
+                   var of = new Microsoft.Win32.OpenFileDialog() { Filter = "PNG|*.png|JPG|*.jpg||" };
+                   if (true != of.ShowDialog()) return false;
+                   picPathName = of.FileName;
+
+                   IconWnd wnd = new IconWnd();
+                   if (true != wnd.ShowDialog()) return false;
+                   if (null == wnd.resultSize) return false;
+
+                   string pathname = picPathName.Replace("\\", "/");
+                   param = System.AppDomain.CurrentDomain.BaseDirectory + "ImgToIco.py";
+                   param = param + " " + "\"" + pathname + "\"";
+                   param = param + " " + wnd.resultSize;
+                   return true;
+               },
+
+               () => {
+                   RunPy(param);
+                   string dst = picPathName + "--result.ico";
+                   if (!File.Exists(dst)) return false;
+                   this.Dispatcher.Invoke(() => {
+                       OptWaitWnd wnd = new OptWaitWnd("生成成功:", dst);
+                       wnd.ShowDialog();
+                   });
+                   return true;
+               });
+
+
+            
+
+            
+            
         }
     }
 }

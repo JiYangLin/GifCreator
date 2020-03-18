@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: PythonMagick
+Version: 0.9.19
+Summary: An object-oriented Python interface to ImageMagick
+Home-page: http://www.imagemagick.org/download/python/
+Author: Dan Kluev
+Author-email: magick-users@imagemagick.org
+License: ImageMagick
+Platform: UNKNOWN
+
+UNKNOWN
+
+

@@ -42,6 +42,9 @@
                 <Fluent:RibbonGroupBox Header="GIF处理">
                     <Fluent:Button  Header="修改图像大小"  Icon="icon/set.png" LargeIcon="icon/set.png" x:Name="ReSizeGif" Click="ReSizeGif_Click"/>
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="ICO处理">
+                    <Fluent:Button  Header="转换为ICO文件"  Icon="icon/hand.png" LargeIcon="icon/hand.png" x:Name="SaveToIcon" Click="SaveToIcon_Click"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
